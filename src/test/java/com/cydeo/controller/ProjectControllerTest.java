@@ -85,14 +85,15 @@ class ProjectControllerTest {
     }
 
     @Test
-    void givenToken_createProject() {
+    void givenToken_createProject() throws Exception {
 
         mvc.perform(MockMvcRequestBuilders.post("/api/v1/project")
                 .header("Authorization", token)
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
-                .content()
-        )
+                .content(toJsonString(project)))
+                .andExpect(status().isCreated())
+                .andExpect(jsonPath("$.message").value("Project is successfully created"));
 
     }
 
