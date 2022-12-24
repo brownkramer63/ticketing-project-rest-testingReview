@@ -17,6 +17,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.*;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
@@ -119,11 +120,14 @@ class ProjectControllerTest {
     @Test
     void givenToken_deleteProject() throws Exception {
 
-        mvc.perform(MockMvcRequestBuilders.delete("/api/v1/project/" + project.getProjectCode())
+        MvcResult result = mvc.perform(MockMvcRequestBuilders.delete("/api/v1/project/" + project.getProjectCode())
                         .header("Authorization", token)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.message").value("Project is successfully deleted"));
+                .andExpect(jsonPath("$.message").value("Project is successfully deleted"))
+                .andReturn();
+
+        assertEquals(200, result.getResponse().getStatus());
 
     }
 
