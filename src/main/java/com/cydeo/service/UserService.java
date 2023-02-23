@@ -6,7 +6,7 @@ import com.cydeo.exception.TicketingProjectException;
 
 import java.util.List;
 
-public interface UserService  {
+public interface UserService {
 
     UserDTO findByUserName(String username);
     List<UserDTO> listAllUsers();
