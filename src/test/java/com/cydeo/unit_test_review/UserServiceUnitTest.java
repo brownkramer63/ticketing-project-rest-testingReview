@@ -11,12 +11,17 @@ import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.impl.UserServiceImpl;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.modelmapper.ModelMapper;
+
+import java.util.List;
+
+import static org.mockito.Mockito.when;
 
 //will let junit know we want to use thing within() in all of our tests
 @ExtendWith(MockitoExtension.class)
@@ -69,6 +74,37 @@ private UserServiceImpl userService;
 
 
     }
+
+    private List<User> getUsers(){
+        User user2 = new User();
+        user2.setId(2L);
+        user2.setId(2L);
+        user2.setFirstName("Emily");
+        return List.of(user, user2); // this list will be immutable cannot add or remove from it
+    }
+
+    private List<UserDTO> getUserDTOs() {
+        UserDTO userDTO2 = new UserDTO();
+        userDTO2.setId(2L);
+        userDTO2.setFirstName("Emily");
+        return List.of(userDTO, userDTO2);
+    }
+
+    //test method does not need to return void but you will never use a return type for a test method
+    @Test
+    void should_list_all_users(){
+      //we need to define our stubs
+        //when method is a static method from mockito
+        //the when is the same as the method from userserviceimpl class that runs the below method then returns list of users
+
+      when(userRepository.findAllByIsDeletedOrderByFirstNameDesc(false)).thenReturn(getUsers()) ;
+      //we are expecting a list of userDTOS
+    List<UserDTO> expectedList = getUserDTOs();
+//
+        //        expectedList.sort(Comparator.comparing(UserDTO::getFirstName).reversed());
+    }
+
+
 
 
 
